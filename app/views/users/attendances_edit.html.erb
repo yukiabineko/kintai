@@ -1,0 +1,35 @@
+<div class="text-center"><h1>勤怠編集</h1></div>
+<div class="row">
+　<div class="col-md-8 offset-2 bg-light shadow p-5">
+   
+   <%= form_with model: @user, url:attendance_update_user_path(@user, params:{day: @sixteen_day}), local: true, method: :patch do |f| %>
+    <table class="table table-bordered">
+     <thead>
+      <tr>
+        <th  class="text-center bg-white align-middle">日付</th>
+        <th  class="text-center bg-white align-middle">曜日</th>
+        <th  class="text-center bg-white">出勤時間</th>
+        <th  class="text-center bg-white">退勤時間</th>
+      </tr>
+     
+     </thead>
+     <tbody>
+       <% @days.each do |day| %>
+        <%= f.fields_for "attendances[]", day do |af| %>
+       <tr>
+         <td class="text-center bg-white"><%= l day.worked_on, format: :short %></td>
+         <td class="text-center bg-white"><%= @week[day.worked_on.wday] %></td>
+         <td><%= af.time_field :start, class: "form-control" if day.worked_on  <= Date.today %></td>
+         <td><%= af.time_field :finish, class: "form-control" if day.worked_on  <= Date.today %></td>
+       </tr>
+       <% end %>
+      <% end %>
+     </tbody>
+    </table>
+    <div class="text-center">
+      <%= link_to "戻る", user_path(@user,params:{day:@sixteen_day}), class: "btn btn-secondary" %>
+      <%= f.submit "編集", class:"btn btn-primary" %>
+    </div>
+    <% end %>
+  </div>
+</div>

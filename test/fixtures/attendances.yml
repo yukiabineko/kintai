@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  worked_on: 2020-07-18
+  start: 2020-07-18 16:06:14
+  finish: 2020-07-18 16:06:14
+
+two:
+  worked_on: 2020-07-18
+  start: 2020-07-18 16:06:14
+  finish: 2020-07-18 16:06:14

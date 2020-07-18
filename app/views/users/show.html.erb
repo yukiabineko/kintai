@@ -1,0 +1,56 @@
+<div class="text-center"><h1>勤怠</h1></div>
+<div class="row">
+　<div class="col-md-8 offset-2 bg-light shadow p-5">
+    <table class="mb-2">
+      <tr>
+        <td><%= link_to "←", user_path(@user, params:{day: @sixteen_day.prev_month}), class:"btn btn-primary mr-2" %></td>
+        <td><%= link_to "→", user_path(@user, params:{day: @sixteen_day.next_month}), class:"btn btn-primary mr-5" %></td>
+        <td><%= link_to "編集", attendances_edit_user_path(@user,params:{day:  @sixteen_day}), class:"btn btn-primary" %></td>
+        <td><input type="button" id="xlsx" value="Excel出力" class="btn btn-success" onclick="func1()"></td>
+      </tr>
+    </table>
+
+
+    <table class="table table-bordered">
+     <thead>
+      <tr>
+        <th rowspan="2" class="text-center bg-white align-middle">日付</th>
+        <th rowspan="2" class="text-center bg-white align-middle">曜日</th>
+        <th colspan="3" class="text-center bg-white">出勤時間</th>
+        <th colspan="3" class="text-center bg-white">退勤時間</th>
+      </tr>
+      <tr>
+         <th class="text-center bg-white">時</th>
+         <th class="text-center bg-white">分</th>
+         <th class="text-center bg-white"></th>
+  
+         <th class="text-center bg-white">時</th>
+         <th class="text-center bg-white">分</th>
+         <th class="text-center bg-white"></th>
+      </tr>
+     </thead>
+     <tbody>
+      <% @days.each do |day| %>
+       <tr>
+         <td class="text-center bg-white"><%= l day.worked_on, format: :short %></td>
+         <td class="text-center bg-white"><%= @week[day.worked_on.wday] %></td>
+         <td class="text-center bg-white"><%= l day.start, format: :hour if day.start.present? %></td>
+         <td class="text-center bg-white"><%= l day.start, format: :min if day.start.present? %></td>
+         <td class="text-center bg-white">
+           <% if day.worked_on == Date.today && day.start.nil? %>
+            <%= button_to '出勤', gowing_leaving_work_attendance_path(day,params:{day:  @sixteen_day}), class: 'btn btn-success btn-block' %>
+           <% end %>
+         </td>
+         <td class="text-center bg-white"><%= l day.finish, format: :hour if day.finish.present? %></td>
+         <td class="text-center bg-white"><%= l day.finish, format: :min if day.finish.present? %></td>
+         <td class="text-center bg-white">
+           <% if day.worked_on == Date.today && day.start.present? && day.finish.nil? %>
+            <%= button_to '退勤', gowing_leaving_work_attendance_path(day,params:{day:  @sixteen_day}), class: 'btn btn-success btn-block' %>
+           <% end %>
+         </td>
+       </tr>
+      <% end %>
+     </tbody>
+    </table>
+  </div>
+</div>
